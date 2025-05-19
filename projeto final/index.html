@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flapy Craft</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="startScreen">
+        <h1>Flappy Craft</h1>
+        <button onclick="startGame()">Jogar</button>
+    </div>
+    <canvas id="gameCanvas" width="400" height="600" style="display: none;"></canvas>
+    <div id="score" style="display: none;">Score: 0</div>
+    <div id="gameOver" style="display: none;">
+        <h1>Game Over</h1>
+        <p>Score: <span id="finalScore">0</span></p>
+        <button onclick="restartGame()">Jogar Novamente?</button>
+    </div>
+    <head></head>
+    <script src="game.js"></script>
+    
+</body>
+</html> 
