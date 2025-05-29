@@ -93,7 +93,7 @@ function updatePipes() {
 
         if (!pipe.scored && pipe.x + pipeWidth < bird.x && gameState === 'playing') {
             score++;
-            somPonto.play(); // Som ao passar no cano
+            somPonto.play();
             pipe.scored = true;
             scoreElement.textContent = `Score: ${score}`;
         }
@@ -120,7 +120,7 @@ function checkCollision() {
 
         if (collidedTop || collidedBottom) {
             gameState = 'over';
-            trilhaSonora.pause(); // Parar trilha sonora ao perder
+            trilhaSonora.pause();
         }
     });
 }
@@ -140,6 +140,7 @@ function startCountdown(callback) {
     startScreenElement.style.display = 'none';
     scoreElement.style.display = 'block';
     scoreElement.textContent = `Score: ${score}`;
+    gameOverElement.style.display = 'none';
 
     function drawCountdown() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -196,7 +197,7 @@ function startGame() {
         return;
     }
     trilhaSonora.currentTime = 0;
-    trilhaSonora.play(); // Iniciar trilha sonora
+    trilhaSonora.play();
     startCountdown(() => {
         gameState = 'playing';
         gameLoop();
@@ -210,17 +211,21 @@ function restartGame() {
     score = 0;
     frameCount = 0;
     backgroundX = 0;
-    gameState = 'playing';
-    scoreElement.textContent = 'Score: 0';
-    gameOverElement.style.display = 'none';
-    trilhaSonora.currentTime = 0;
-    trilhaSonora.play();
-    gameLoop();
+    startCountdown(() => {
+        gameState = 'playing';
+        trilhaSonora.currentTime = 0;
+        trilhaSonora.play();
+        gameLoop();
+    });
 }
 
 document.addEventListener('keydown', (e) => {
-    if (e.code === 'Space' && gameState === 'playing') {
-        bird.velocity = bird.lift;
+    if (e.code === 'Space') {
+        if (gameState === 'playing') {
+            bird.velocity = bird.lift;
+        } else if (gameState === 'over') {
+            restartGame();
+        }
     }
 });
 
